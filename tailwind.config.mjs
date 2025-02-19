@@ -1,3 +1,5 @@
+import { Orbitron, Space_Grotesk } from 'next/font/google';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -8,8 +10,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        lightHover: '#fcf4ff',
+        darkHover: '#11001F',
+      },
+      fontFamily: {
+        Space_Grotesk: ["SpaceGrotesk", "serif"],
+        Roboto: ["Roboto", "sans-serif"],
+        Sixtyfour: ["Sixtyfour", "sans-serif"],
+        Orbitron: ["Orbitron", "sans-serif"],
+        Ruda: ["Ruda", "sans-serif"],
       },
     },
   },
