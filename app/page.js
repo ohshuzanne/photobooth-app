@@ -11,8 +11,16 @@ export default function Home() {
   const [selectedOverlays, setSelectedOverlays] = useState([]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-300 to-white text-black pb-10">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-300 via-blue-100 to-white text-black pb-10">
       
+      {/*
+        Message for small screens as it isnt optimized for mobile yet!!!
+      */}
+      <div className="w-full text-center bg-gradient-to-b from-white to-lime-300 text-white p-4 font-semibold md:hidden">
+        This app works best on a laptop or desktop. Please switch to a larger screen for the full experience.
+      </div>
+
+
       {/* Logo & Title */}
       <div className="flex items-center gap-4 mb-6 mt-6">
         <Image src={assets.idealphotologo} alt="Ideal Photo Logo" className="w-14 h-14" />

@@ -13,7 +13,11 @@ const CameraComponent = ({ photos, setPhotos }) => {
   const [availableOverlays] = useState([
     assets.overlay, assets.overlay2, assets.overlay3, assets.overlay4, 
     assets.overlay5, assets.overlay6, assets.overlay7, assets.overlay8,
-    assets.overlay9, assets.overlay10, assets.overlay11,
+    assets.overlay9, assets.overlay10, assets.overlay11, assets.overlay12,
+    assets.overlay13, assets.overlay14, assets.overlay15, assets.overlay16,
+    assets.overlay17, assets.overlay18, assets.overlay19, assets.overlay20,
+    assets.overlay21, assets.overlay22, assets.overlay23, assets.overlay24,
+    assets.overlay25, assets.overlay26, assets.overlay27,
   ]); 
   const [selectedOverlays, setSelectedOverlays] = useState([]);
   const [currentOverlayIndex, setCurrentOverlayIndex] = useState(0);
