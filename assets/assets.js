@@ -1,9 +1,8 @@
 import idealphotologo from './IdealPhotoLogo.png';
 import fullidealphotologo from './IdealPhotoLogoWithText.png';
 
-// Dynamically import overlays
 const overlays = {};
-for (let i = 1; i <= 51; i++) {
+for (let i = 1; i <= 62; i++) {
   overlays[`overlay${i}`] = require(`./Overlays/Overlay${i}.png`).default;
 }
 
@@ -22,7 +21,11 @@ export const overlayCategories = {
     overlays.overlay19, overlays.overlay20, overlays.overlay21, overlays.overlay22, overlays.overlay23,
     overlays.overlay24, overlays.overlay25, overlays.overlay26, overlays.overlay27,
   ],
-  Aespa: [overlays.overlay1, overlays.overlay7, overlays.overlay8],
+  Aespa: [
+    overlays.overlay1, overlays.overlay7, overlays.overlay8, overlays.overlay52, overlays.overlay53,
+    overlays.overlay54, overlays.overlay55, overlays.overlay56, overlays.overlay57, overlays.overlay58,
+    overlays.overlay59, overlays.overlay60, overlays.overlay61, overlays.overlay62,
+  ],
   Enhypen:[
     overlays.overlay28, overlays.overlay29, overlays.overlay30, overlays.overlay31,
     overlays.overlay32, overlays.overlay33, overlays.overlay34, overlays.overlay35,

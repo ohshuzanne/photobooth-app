@@ -12,7 +12,7 @@ const CATEGORIES = {
   Lesserafim: overlayCategories.Lesserafim,
 };
 
-const OVERLAYS_PER_PAGE = 21;
+const OVERLAYS_PER_PAGE = 20;
 
 const CameraComponent = ({ photos, setPhotos }) => {
   const webcamRef = useRef(null);
