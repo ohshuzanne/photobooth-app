@@ -171,14 +171,15 @@ const CameraComponent = ({ photos, setPhotos }) => {
         </div>
       )}
 
-      <button
-        onClick={startCaptureSequence}
-        disabled={isCapturing || selectedOverlays.length < 4}
-        className={`mt-4 px-6 py-2 font-Ruda font-semibold border-[1px] border-black transition-all 
-          ${isCapturing || selectedOverlays.length < 4 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-b from-white to-lime-300 text-black hover:bg-pink-400'}`}
-      >
-        {isCapturing ? 'Capturing...' : 'Capture!'}
-      </button>
+    <button
+      onClick={startCaptureSequence}
+      disabled={isCapturing || (overlaysEnabled && selectedOverlays.length < 4)}
+      className={`mt-4 px-6 py-2 font-Ruda font-semibold border-[1px] border-black transition-all 
+        ${isCapturing || (overlaysEnabled && selectedOverlays.length < 4) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-b from-white to-lime-300 text-black hover:bg-pink-400'}`}
+    >
+      {isCapturing ? 'Capturing...' : 'Capture!'}
+    </button>
+
     </div>
   );
 };
