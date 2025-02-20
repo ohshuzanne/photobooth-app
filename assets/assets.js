@@ -1,61 +1,38 @@
 import idealphotologo from './IdealPhotoLogo.png';
-import overlay from './Overlays/Overlay.png'
 import fullidealphotologo from './IdealPhotoLogoWithText.png';
-import overlay2 from './Overlays/Overlay2.png';
-import overlay3 from './Overlays/Overlay3.png';
-import overlay4 from './Overlays/Overlay4.png';
-import overlay5 from './Overlays/Overlay5.png';
-import overlay6 from './Overlays/Overlay6.png';
-import overlay7 from './Overlays/Overlay7.png';
-import overlay8 from './Overlays/Overlay8.png';
-import overlay9 from './Overlays/Overlay9.png';
-import overlay10 from './Overlays/Overlay10.png';
-import overlay11 from './Overlays/Overlay11.png';
-import overlay12 from './Overlays/Overlay12.png';
-import overlay13 from './Overlays/Overlay13.png';
-import overlay14 from './Overlays/Overlay14.png';
-import overlay15 from './Overlays/Overlay15.png';
-import overlay16 from './Overlays/Overlay16.png';
-import overlay17 from './Overlays/Overlay17.png';
-import overlay18 from './Overlays/Overlay18.png';
-import overlay19 from './Overlays/Overlay19.png';  
-import overlay20 from './Overlays/Overlay20.png';
-import overlay21 from './Overlays/Overlay21.png';
-import overlay22 from './Overlays/Overlay22.png';
-import overlay23 from './Overlays/Overlay23.png';
-import overlay24 from './Overlays/Overlay24.png';
-import overlay25 from './Overlays/Overlay25.png';
-import overlay26 from './Overlays/Overlay26.png';
-import overlay27 from './Overlays/Overlay27.png';
+
+// Dynamically import overlays
+const overlays = {};
+for (let i = 1; i <= 51; i++) {
+  overlays[`overlay${i}`] = require(`./Overlays/Overlay${i}.png`).default;
+}
 
 export const assets = {
-    idealphotologo,
-    overlay,
-    overlay2,
-    overlay3,
-    overlay4,
-    overlay5,
-    overlay6,
-    overlay7,
-    overlay8,
-    overlay9,
-    overlay10,
-    overlay11,
-    overlay12,
-    overlay13,
-    overlay14,
-    overlay15,
-    overlay16,
-    overlay17,
-    overlay18,
-    overlay19,
-    overlay20,
-    overlay21,
-    overlay22,
-    overlay23,
-    overlay24,
-    overlay25,
-    overlay26,
-    overlay27,
-    fullidealphotologo,
-}
+  idealphotologo,
+  fullidealphotologo,
+  ...overlays,
+};
+
+export const overlayCategories = {
+  all: Object.values(overlays),
+  Boynextdoor: [
+    overlays.overlay2, overlays.overlay3, overlays.overlay4, overlays.overlay5, overlays.overlay6,
+    overlays.overlay9, overlays.overlay10, overlays.overlay11, overlays.overlay12, overlays.overlay13,
+    overlays.overlay14, overlays.overlay15, overlays.overlay16, overlays.overlay17, overlays.overlay18,
+    overlays.overlay19, overlays.overlay20, overlays.overlay21, overlays.overlay22, overlays.overlay23,
+    overlays.overlay24, overlays.overlay25, overlays.overlay26, overlays.overlay27,
+  ],
+  Aespa: [overlays.overlay1, overlays.overlay7, overlays.overlay8],
+  Enhypen:[
+    overlays.overlay28, overlays.overlay29, overlays.overlay30, overlays.overlay31,
+    overlays.overlay32, overlays.overlay33, overlays.overlay34, overlays.overlay35,
+    overlays.overlay36, overlays.overlay37, overlays.overlay38, overlays.overlay39,
+    overlays.overlay40, overlays.overlay41,
+  ],
+  Lesserafim: [
+    overlays.overlay42, overlays.overlay43, overlays.overlay44, overlays.overlay45,
+    overlays.overlay46, overlays.overlay47, overlays.overlay48, overlays.overlay49,
+    overlays.overlay50, overlays.overlay51,
+  ],
+
+};

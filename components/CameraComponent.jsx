@@ -2,7 +2,17 @@
 
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
-import { assets } from '@/assets/assets';
+import { assets, overlayCategories } from '@/assets/assets';
+
+const CATEGORIES = {
+  All: overlayCategories.all,
+  Boynextdoor: overlayCategories.Boynextdoor,
+  Aespa: overlayCategories.Aespa,
+  Enhypen: overlayCategories.Enhypen,
+  Lesserafim: overlayCategories.Lesserafim,
+};
+
+const OVERLAYS_PER_PAGE = 21;
 
 const CameraComponent = ({ photos, setPhotos }) => {
   const webcamRef = useRef(null);
@@ -10,24 +20,26 @@ const CameraComponent = ({ photos, setPhotos }) => {
   const [countdown, setCountdown] = useState(null);
   const [showReady, setShowReady] = useState(false);
   const [overlaysEnabled, setOverlaysEnabled] = useState(false);
-  const [availableOverlays] = useState([
-    assets.overlay, assets.overlay2, assets.overlay3, assets.overlay4, 
-    assets.overlay5, assets.overlay6, assets.overlay7, assets.overlay8,
-    assets.overlay9, assets.overlay10, assets.overlay11, assets.overlay12,
-    assets.overlay13, assets.overlay14, assets.overlay15, assets.overlay16,
-    assets.overlay17, assets.overlay18, assets.overlay19, assets.overlay20,
-    assets.overlay21, assets.overlay22, assets.overlay23, assets.overlay24,
-    assets.overlay25, assets.overlay26, assets.overlay27,
-  ]); 
+  const [category, setCategory] = useState("All");
+  const [currentPage, setCurrentPage] = useState(0);
   const [selectedOverlays, setSelectedOverlays] = useState([]);
   const [currentOverlayIndex, setCurrentOverlayIndex] = useState(0);
 
+  const availableOverlays = CATEGORIES[category] || [];
+
+  // Pagination logic
+  const totalPages = Math.ceil(availableOverlays.length / OVERLAYS_PER_PAGE);
+  const paginatedOverlays = availableOverlays.slice(
+    currentPage * OVERLAYS_PER_PAGE,
+    (currentPage + 1) * OVERLAYS_PER_PAGE
+  );
+
   const startCaptureSequence = async () => {
     setIsCapturing(true);
-    setPhotos([]); 
+    setPhotos([]);
 
     for (let i = 0; i < 4; i++) {
-      setCurrentOverlayIndex(i); 
+      setCurrentOverlayIndex(i);
       setShowReady(true);
       await new Promise(resolve => setTimeout(resolve, 1000));
       setShowReady(false);
@@ -41,7 +53,7 @@ const CameraComponent = ({ photos, setPhotos }) => {
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
         setPhotos(prevPhotos => [
-          ...prevPhotos, 
+          ...prevPhotos,
           { src: imageSrc, overlay: overlaysEnabled && selectedOverlays[i] ? selectedOverlays[i].src : null }
         ]);
       }
@@ -55,18 +67,18 @@ const CameraComponent = ({ photos, setPhotos }) => {
   return (
     <div className="flex flex-col items-center p-4 bg-white text-white border-[1px] border-black relative">
       <div className="relative w-80 h-60 border-[1px] border-black">
-        <Webcam 
-          audio={false} 
-          mirrored={true} 
-          ref={webcamRef} 
-          screenshotFormat="image/jpeg" 
+        <Webcam
+          audio={false}
+          mirrored={true}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
           className="w-full h-full"
         />
 
         {/* Overlay on Webcam Preview (During Capture) */}
         {overlaysEnabled && isCapturing && selectedOverlays[currentOverlayIndex] && (
-          <img 
-            src={selectedOverlays[currentOverlayIndex].src} 
+          <img
+            src={selectedOverlays[currentOverlayIndex].src}
             className="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"
             alt="overlay-preview"
           />
@@ -87,7 +99,7 @@ const CameraComponent = ({ photos, setPhotos }) => {
         )}
       </div>
 
-      {/* Overlay Selection Button */}
+      {/* Overlay Selection Toggle */}
       <button
         onClick={() => setOverlaysEnabled(!overlaysEnabled)}
         disabled={isCapturing}
@@ -97,17 +109,33 @@ const CameraComponent = ({ photos, setPhotos }) => {
         {overlaysEnabled ? "Disable Overlays" : "Enable Overlays"}
       </button>
 
-      {/* Overlay Selection Dropdown */}
+      {/* Overlay Selection */}
       {overlaysEnabled && (
-        <div className="mt-4">
-          <h3 className="text-black font-semibold font-Ruda">Select 4 Overlays:</h3>
+        <div className="mt-4 w-full flex flex-col items-center">
+          {/* Category Dropdown */}
+          <select
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                setCurrentPage(0);
+              }}
+              className="mb-4 px-3 py-2 border-[1px] border-black bg-white text-black font-Ruda"
+            >
+              {Object.keys(CATEGORIES).map((cat) => (
+                <option key={cat} value={cat} className="font-Ruda">
+                  {cat}
+                </option>
+              ))}
+            </select>
+
           <div className="grid grid-cols-4 gap-2">
-            {availableOverlays.map((overlay, index) => (
-              <img 
-                key={index} 
-                src={overlay?.src || ''} 
-                alt={`overlay-option-${index}`} 
-                className={`w-20 h-20 cursor-pointer border-[1px] border-black ${selectedOverlays.includes(overlay) ? 'border-[3px] border-lime-500' : ''}`}
+            {paginatedOverlays.map((overlay, index) => (
+              <img
+                key={index}
+                src={overlay?.src || ''}
+                alt={`overlay-option-${index}`}
+                className={`w-20 h-20 cursor-pointer border-[1px] border-black 
+                  ${selectedOverlays.includes(overlay) ? 'border-[3px] border-lime-500' : ''}`}
                 onClick={() => {
                   if (selectedOverlays.includes(overlay)) {
                     setSelectedOverlays(selectedOverlays.filter(o => o !== overlay));
@@ -117,6 +145,28 @@ const CameraComponent = ({ photos, setPhotos }) => {
                 }}
               />
             ))}
+          </div>
+
+          <div className="flex justify-between w-full mt-4">
+            <button
+              disabled={currentPage === 0}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              className={`px-4 py-2 border-[1px] border-black font-Ruda 
+                ${currentPage === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-b from-white to-lime-300 text-black hover:bg-pink-400'}`}
+            >
+              Previous
+            </button>
+            <span className="text-black font-Ruda">
+              Page {currentPage + 1} of {totalPages}
+            </span>
+            <button
+              disabled={currentPage >= totalPages - 1}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+              className={`px-4 py-2 border-[1px] border-black font-Ruda 
+                ${currentPage >= totalPages - 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-b from-white to-lime-300 text-black hover:bg-pink-400'}`}
+            >
+              Next
+            </button>
           </div>
         </div>
       )}
@@ -129,17 +179,6 @@ const CameraComponent = ({ photos, setPhotos }) => {
       >
         {isCapturing ? 'Capturing...' : 'Capture!'}
       </button>
-
-      <div className="flex flex-wrap gap-2 mt-4">
-        {photos.map((photo, index) => (
-          <div key={index} className="relative">
-            <img src={photo.src} className="w-32 h-24 border-[1px] border-black" alt={`photo-${index}`} />
-            {photo.overlay && (
-              <img src={photo.overlay} className="absolute inset-0 w-full h-full object-cover pointer-events-none z-10" alt={`overlay-${index}`} />
-            )}
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
