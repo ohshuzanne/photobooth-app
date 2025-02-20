@@ -16,7 +16,7 @@ export default function Home() {
       {/*
         Message for small screens as it isnt optimized for mobile yet!!!
       */}
-      <div className="w-full text-center bg-gradient-to-b from-white to-lime-300 text-white p-4 font-semibold md:hidden">
+      <div className="w-full text-center bg-gradient-to-b from-white to-lime-300 text-black p-4 font-Ruda font-semibold md:hidden">
         This app works best on a laptop or desktop. Please switch to a larger screen for the full experience.
       </div>
 
