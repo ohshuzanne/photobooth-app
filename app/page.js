@@ -14,7 +14,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-300 to-white text-black pb-10">
       
       {/* Logo & Title */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-6 mt-6">
         <Image src={assets.idealphotologo} alt="Ideal Photo Logo" className="w-14 h-14" />
         <h1 className="text-4xl font-semibold font-Orbitron text-white" style={{ textShadow: '2px 2px 0px rgba(0, 0, 0, 0.6)' }}>
           idealphoto

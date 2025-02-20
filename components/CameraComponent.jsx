@@ -11,14 +11,19 @@ const CameraComponent = ({ photos, setPhotos }) => {
   const [showReady, setShowReady] = useState(false);
   const [overlaysEnabled, setOverlaysEnabled] = useState(false);
   const [availableOverlays] = useState([
-    assets.overlay, assets.overlay2, assets.overlay3, assets.overlay4]); 
+    assets.overlay, assets.overlay2, assets.overlay3, assets.overlay4, 
+    assets.overlay5, assets.overlay6, assets.overlay7, assets.overlay8,
+    assets.overlay9, assets.overlay10, assets.overlay11,
+  ]); 
   const [selectedOverlays, setSelectedOverlays] = useState([]);
+  const [currentOverlayIndex, setCurrentOverlayIndex] = useState(0);
 
   const startCaptureSequence = async () => {
     setIsCapturing(true);
     setPhotos([]); 
 
     for (let i = 0; i < 4; i++) {
+      setCurrentOverlayIndex(i); 
       setShowReady(true);
       await new Promise(resolve => setTimeout(resolve, 1000));
       setShowReady(false);
@@ -46,26 +51,37 @@ const CameraComponent = ({ photos, setPhotos }) => {
   return (
     <div className="flex flex-col items-center p-4 bg-white text-white border-[1px] border-black relative">
       <div className="relative w-80 h-60 border-[1px] border-black">
-      <Webcam 
-        audio={false} 
-        mirrored={true} 
-        ref={webcamRef} 
-        screenshotFormat="image/jpeg" 
-        className="w-full h-full"
-      />
+        <Webcam 
+          audio={false} 
+          mirrored={true} 
+          ref={webcamRef} 
+          screenshotFormat="image/jpeg" 
+          className="w-full h-full"
+        />
 
-      {showReady && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-4xl font-semibold font-Ruda z-20">
-          Ready?
-        </div>
-      )}
+        {/* Overlay on Webcam Preview (During Capture) */}
+        {overlaysEnabled && isCapturing && selectedOverlays[currentOverlayIndex] && (
+          <img 
+            src={selectedOverlays[currentOverlayIndex].src} 
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"
+            alt="overlay-preview"
+          />
+        )}
 
-      {countdown !== null && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-6xl font-semibold font-Ruda z-20">
-          {countdown}
-        </div>
-      )}
-    </div>
+        {/* Ready Indicator */}
+        {showReady && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-4xl font-semibold font-Ruda z-20">
+            Ready?
+          </div>
+        )}
+
+        {/* Countdown */}
+        {countdown !== null && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-6xl font-semibold font-Ruda z-20">
+            {countdown}
+          </div>
+        )}
+      </div>
 
       {/* Overlay Selection Button */}
       <button
