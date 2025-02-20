@@ -1,9 +1,9 @@
 import idealphotologo from './IdealPhotoLogo.png';
-import overlay from './Overlay.png'
+import overlay from './Overlays/Overlay.png'
 import fullidealphotologo from './IdealPhotoLogoWithText.png';
-import overlay2 from './Overlay2.png';
-import overlay3 from './Overlay3.png';
-import overlay4 from './Overlay4.png';
+import overlay2 from './Overlays/Overlay2.png';
+import overlay3 from './Overlays/Overlay3.png';
+import overlay4 from './Overlays/Overlay4.png';
 
 export const assets = {
     idealphotologo,
