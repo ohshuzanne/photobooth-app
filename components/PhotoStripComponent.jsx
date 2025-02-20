@@ -1,11 +1,14 @@
 'use client';
-import { use, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import React from "react";
+import { assets } from "@/assets/assets";
 import html2canvas from 'html2canvas';
 
 const PhotoStripComponent = ({ photos }) => {
     const stripRef = useRef(null);
     const timestamp = new Date().toLocaleDateString();
+
+    const overlays = [assets.overlay, assets.overlay2, assets.overlay3, assets.overlay4];
 
     const [stripColor, setStripColor] = useState('bg-white'); 
     const [textColor, setTextColor] = useState('text-black');
@@ -22,20 +25,18 @@ const PhotoStripComponent = ({ photos }) => {
         link.click();
     };
 
-    //function to handle the color changes
-
     const handleStripColorChange = (color) => {
-        if (color=='white'){
+        if (color === 'white') {
             setStripColor('bg-white');
             setTextColor('text-black');
-        } else if (color=='black'){
+        } else if (color === 'black') {
             setStripColor('bg-black');
             setTextColor('text-white');
-        } else if (color=='blue'){
+        } else if (color === 'blue') {
             setStripColor('bg-rose-900');
             setTextColor('text-white');
         }
-    }
+    };
 
     return (
         <div className="flex flex-col items-center mt-6">
@@ -47,16 +48,28 @@ const PhotoStripComponent = ({ photos }) => {
 
             <div ref={stripRef} className={`relative ${stripColor} border-[1px] border-black p-4 flex flex-col items-center`}>
                 <div className="flex flex-col items-center">
-                    {photos.slice(0, 4).map((photo, index) => (
-                        <img
-                            key={index}
-                            src={photo}
-                            alt={`photo-${index}`}
-                            className="w-42 h-32 border-[1px] border-black mb-2"
-                        />
-                    ))}
+                {photos.slice(0, 4).map((photo, index) => (
+                <div key={index} className="relative w-42 h-32 mb-2">
+                    <img 
+                        src={photo} 
+                        alt={`photo-${index}`} 
+                        className="w-full h-full border-[1px] border-black"
+                    />
+                    <img 
+                        src={overlays[index].src} 
+                        alt="Overlay" 
+                        className="absolute inset-0 w-full h-full pointer-events-none z-10"
+                    />
                 </div>
-                <p className={`mt-4 text-lg font-semibold font-Orbitron ${textColor}`}>idealphoto</p>
+            ))}
+
+                </div>
+                <img
+                    src={assets.fullidealphotologo.src} 
+                    alt="Full logo" 
+                    className="w-40 h-fit mt-2"
+                />
+                {/* <p className={`mt-4 text-lg font-semibold font-Orbitron ${textColor}`}>idealphoto</p> */}
                 <p className={`mt-4 text-xs font-semibold font-Ruda self-end text-right ${textColor}`}>{timestamp}</p>
             </div>
 

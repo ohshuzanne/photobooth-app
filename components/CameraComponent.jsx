@@ -2,23 +2,34 @@
 
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
+import { assets } from '@/assets/assets';
 
 const CameraComponent = ({ photos, setPhotos }) => {
   const webcamRef = useRef(null);
   const [isCapturing, setIsCapturing] = useState(false);
   const [countdown, setCountdown] = useState(null);
+  const [currentOverlayIndex, setCurrentOverlayIndex] = useState(-1);
+  const [showReady, setShowReady] = useState(false); 
+
+  const overlays = [assets.overlay, assets.overlay2, assets.overlay3, assets.overlay4];
 
   const startCaptureSequence = async () => {
     setIsCapturing(true);
-    setPhotos([]); 
+    setPhotos([]);
 
     for (let i = 0; i < 4; i++) {
+      setCurrentOverlayIndex(i); 
+      setShowReady(true);
+      
+      await new Promise(resolve => setTimeout(resolve, 1000)); 
+      setShowReady(false); 
+      
       for (let j = 3; j >= 1; j--) {
         setCountdown(j);
-        await new Promise(resolve => setTimeout(resolve, 1000)); 
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
 
-      setCountdown(null); 
+      setCountdown(null);
 
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
@@ -29,26 +40,46 @@ const CameraComponent = ({ photos, setPhotos }) => {
     }
 
     setIsCapturing(false);
+    setCurrentOverlayIndex(-1); 
   };
 
   return (
     <div className="flex flex-col items-center p-4 bg-white text-white border-[1px] border-black relative">
-      <div className="relative">
+      <div className="relative w-80 h-60 border-[1px] border-black">
+        {/* Webcam Feed */}
         <Webcam
           audio={false}
           mirrored={true}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          className="w-320 h-180 border-[1px] border-black"
+          className="w-full h-full"
         />
-        
+
+        {/* Overlay Image */}
+        {currentOverlayIndex >= 0 && overlays[currentOverlayIndex] && (
+          <img
+            src={overlays[currentOverlayIndex].src}
+            alt={`overlay-${currentOverlayIndex}`}
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none z-10"
+          />
+        )}
+
+        {/*ready message */}
+        {showReady && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-4xl font-semibold font-Ruda z-20">
+            Ready?
+          </div>
+        )}
+
+        {/* Countdown Timer */}
         {countdown !== null && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-6xl font-semibold font-Ruda">
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-6xl font-semibold font-Ruda z-20">
             {countdown}
           </div>
         )}
       </div>
 
+      {/* Capture Button */}
       <button
         onClick={startCaptureSequence}
         disabled={isCapturing}
@@ -58,7 +89,8 @@ const CameraComponent = ({ photos, setPhotos }) => {
         {isCapturing ? 'Capturing...' : 'Capture!'}
       </button>
 
-      <div className="flex flex-wrap gap-2 mt-4 relative">
+      {/* Preview Captured Photos */}
+      <div className="flex flex-wrap gap-2 mt-4">
         {photos.map((photo, index) => (
           <img key={index} src={photo} className="w-32 h-24 border-[1px] border-black" alt={`photo-${index}`} />
         ))}

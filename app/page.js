@@ -4,7 +4,6 @@ import CameraComponent from "@/components/CameraComponent";
 import PhotoStripComponent from "@/components/PhotoStripComponent";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
-import NavBar from "@/components/Navbar";
 
 export default function Home() {
   const [photos, setPhotos] = useState([]);
