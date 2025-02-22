@@ -10,6 +10,8 @@ const CATEGORIES = {
   Aespa: overlayCategories.Aespa,
   Enhypen: overlayCategories.Enhypen,
   Lesserafim: overlayCategories.Lesserafim,
+  Ive: overlayCategories.Ive,
+  TXT: overlayCategories.TXT,
 };
 
 const OVERLAYS_PER_PAGE = 20;
